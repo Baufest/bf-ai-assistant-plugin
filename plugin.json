@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "mini-assistant-demos",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Simulated Chipotle and Jumbo orders and Hotelbeds sandbox bookings through the mini-assistant MCP.",
   "author": {
     "name": "Baufest",
@@ -11,6 +11,7 @@
   "keywords": ["demo", "mcp", "ordering", "booking", "hotelbeds"],
   "extensions": {
     "com.openai": {
+      "apps": "./.app.json",
       "interface": {
         "displayName": "Mini Assistant Demos",
         "shortDescription": "Demo ordering and booking with simulated data",

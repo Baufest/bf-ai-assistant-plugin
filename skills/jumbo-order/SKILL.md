@@ -1,11 +1,11 @@
 ---
 name: jumbo-order
-description: Build and place a simulated Jumbo supermarket order with the plugin's jumbo MCP server. Use when the user wants groceries from Jumbo, for example rice, tomatoes, meat, dairy or drinks, by unit or by weight.
+description: Build and place a simulated Jumbo supermarket order with the plugin's jumbo connection (Mini Assistant Jumbo). Use when the user wants groceries from Jumbo, for example rice, tomatoes, meat, dairy or drinks, by unit or by weight.
 ---
 
 # Simulated Jumbo order
 
-Follow the `demo-conventions` skill. Use only the tools of the **jumbo** MCP server; the chipotle server exposes tools with the same names for a different store.
+Follow the `demo-conventions` skill. Use only the tools of the **jumbo** connection (Mini Assistant Jumbo); the chipotle connection exposes tools with the same names for a different store.
 
 ## Flow
 

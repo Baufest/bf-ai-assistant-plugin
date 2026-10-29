@@ -31,7 +31,7 @@ These demos run against the mini-assistant MCP. Chipotle and Jumbo use a synthet
 - Say clearly that Chipotle and Jumbo orders are simulated and that Hotelbeds bookings are sandbox bookings.
 - On `MUTATION_OUTCOME_UNKNOWN`, `QUOTE_ALREADY_USED` or `BOOKING_PRICE_CHANGED`, never retry the mutation. Explain the result, and for commerce read the order with `commerce_get_order` when an order reference exists.
 - On `QUOTE_EXPIRED`, create a new quote and ask for approval again.
-- If the server asks to reconnect or returns an authorization error, ask the user to reconnect the plugin's MCP server in ChatGPT settings.
+- If the server asks to reconnect or returns an authorization error, ask the user to reconnect the matching Mini Assistant connection in ChatGPT Plugins.
 
 ## Language
 

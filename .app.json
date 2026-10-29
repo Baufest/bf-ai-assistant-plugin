@@ -1,0 +1,16 @@
+{
+  "apps": {
+    "chipotle": {
+      "id": "plugin_asdk_app_6ae3d0a300f4819185028157b9ccffc4",
+      "required": true
+    },
+    "jumbo": {
+      "id": "plugin_asdk_app_6ae3d153fe608191bd1a26e60c647759",
+      "required": true
+    },
+    "hotelbeds": {
+      "id": "plugin_asdk_app_6ae3d1ae8e488191af7df9519b2d483b",
+      "required": true
+    }
+  }
+}
