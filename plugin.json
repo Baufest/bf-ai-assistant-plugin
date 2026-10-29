@@ -1,0 +1,29 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "mini-assistant-demos",
+  "version": "0.1.0",
+  "description": "Simulated Chipotle and Jumbo orders and Hotelbeds sandbox bookings through the mini-assistant MCP.",
+  "author": {
+    "name": "Baufest",
+    "url": "https://github.com/Baufest"
+  },
+  "repository": "https://github.com/Baufest/bf-ai-assistant-plugin",
+  "keywords": ["demo", "mcp", "ordering", "booking", "hotelbeds"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Mini Assistant Demos",
+        "shortDescription": "Demo ordering and booking with simulated data",
+        "longDescription": "Order from the simulated Chipotle and Jumbo catalogs or book Hotelbeds sandbox hotels and activities. Nothing is charged, delivered or booked for real, and every state-changing step asks for your explicit approval.",
+        "developerName": "Baufest",
+        "category": "Productivity",
+        "capabilities": ["Read", "Write"],
+        "defaultPrompt": [
+          "Quiero un burrito de carnitas y una Diet Coke en Chipotle",
+          "Quiero 1 kg de arroz y 1 kg de tomate en Jumbo",
+          "Busco un hotel en Barcelona para dos adultos"
+        ]
+      }
+    }
+  }
+}
