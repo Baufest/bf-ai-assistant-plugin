@@ -1,11 +1,11 @@
 ---
 name: hotelbeds-booking
-description: Search and book Hotelbeds sandbox hotels or activities with the plugin's hotelbeds MCP server. Use when the user wants a hotel stay or a tour or activity at a destination.
+description: Search and book Hotelbeds sandbox hotels or activities with the plugin's hotelbeds connection (Mini Assistant Hotelbeds). Use when the user wants a hotel stay or a tour or activity at a destination.
 ---
 
 # Hotelbeds sandbox booking
 
-Follow the `demo-conventions` skill. Use only the tools of the **hotelbeds** MCP server. Bookings use the Hotelbeds **sandbox**: they are test bookings, nothing is charged, and no payment card is ever requested.
+Follow the `demo-conventions` skill. Use only the tools of the **hotelbeds** connection (Mini Assistant Hotelbeds). Bookings use the Hotelbeds **sandbox**: they are test bookings, nothing is charged, and no payment card is ever requested.
 
 Some deployments expose only hotels or only activities. If a needed tool is missing, say that this capability is not configured.
 

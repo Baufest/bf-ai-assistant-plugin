@@ -1,11 +1,11 @@
 ---
 name: chipotle-order
-description: Build and place a simulated Chipotle order with the plugin's chipotle MCP server. Use when the user wants Chipotle food or drinks, for example burritos, bowls, tacos, sides or sodas.
+description: Build and place a simulated Chipotle order with the plugin's chipotle connection (Mini Assistant Chipotle). Use when the user wants Chipotle food or drinks, for example burritos, bowls, tacos, sides or sodas.
 ---
 
 # Simulated Chipotle order
 
-Follow the `demo-conventions` skill. Use only the tools of the **chipotle** MCP server; the jumbo server exposes tools with the same names for a different store.
+Follow the `demo-conventions` skill. Use only the tools of the **chipotle** connection (Mini Assistant Chipotle); the jumbo connection exposes tools with the same names for a different store.
 
 ## Flow
 
