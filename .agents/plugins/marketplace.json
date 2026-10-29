@@ -1,0 +1,21 @@
+{
+  "name": "bf-ai-assistant",
+  "interface": {
+    "displayName": "Baufest AI Assistant"
+  },
+  "plugins": [
+    {
+      "name": "mini-assistant-demos",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/Baufest/bf-ai-assistant-plugin.git",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
