@@ -9,7 +9,7 @@
       "source": {
         "source": "url",
         "url": "https://github.com/Baufest/bf-ai-assistant-plugin.git",
-        "ref": "main"
+        "sha": "93504bc611dd304002f64dea31e5abfd819d7539"
       },
       "policy": {
         "installation": "AVAILABLE",

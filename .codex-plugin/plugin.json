@@ -1,26 +1,26 @@
 {
-  "name": "mini-assistant-demos",
-  "version": "0.2.0",
-  "description": "Simulated Chipotle and Jumbo orders and Hotelbeds sandbox bookings through the mini-assistant MCP.",
+  "name": "mini-assistant-commerce",
+  "version": "0.3.0",
+  "description": "Discover available demo stores and prepare a cart for web checkout.",
   "author": {
     "name": "Baufest",
     "url": "https://github.com/Baufest"
   },
   "repository": "https://github.com/Baufest/bf-ai-assistant-plugin",
-  "keywords": ["demo", "mcp", "ordering", "booking", "hotelbeds"],
+  "keywords": ["demo", "mcp", "commerce", "cart"],
   "skills": "./skills/",
   "apps": "./.app.json",
   "interface": {
-    "displayName": "Mini Assistant Demos",
-    "shortDescription": "Demo ordering and booking with simulated data",
-    "longDescription": "Order from the simulated Chipotle and Jumbo catalogs or book Hotelbeds sandbox hotels and activities. Nothing is charged, delivered or booked for real, and every state-changing step asks for your explicit approval.",
+    "displayName": "Mini Assistant Commerce",
+    "shortDescription": "Discover stores and prepare a cart",
+    "longDescription": "Search currently available demo stores and prepare a cart for review and explicit checkout on the web.",
     "developerName": "Baufest",
     "category": "Productivity",
     "capabilities": ["Read", "Write"],
     "defaultPrompt": [
-      "Quiero un burrito de carnitas y una Diet Coke en Chipotle",
-      "Quiero 1 kg de arroz y 1 kg de tomate en Jumbo",
-      "Busco un hotel en Barcelona para dos adultos"
+      "¿Qué tiendas tienen demos disponibles?",
+      "Quiero buscar productos en una tienda disponible",
+      "Prepará un carrito para revisarlo en la web"
     ]
   }
 }
