@@ -70,11 +70,9 @@ test("both commerce manifests agree and no legacy skill is installed", () => {
   assert.equal(portable.extensions["com.openai"].apps, compat.apps);
   assert.deepEqual(portable.extensions["com.openai"].interface, compat.interface);
   const apps = readJson(".app.json").apps;
-  assert.ok(Object.keys(apps).length === 0 || Object.keys(apps).join() === "commerce");
-  if (apps.commerce) {
-    assert.match(apps.commerce.id, /^plugin_asdk_app_[A-Za-z0-9_-]+$/);
-    assert.equal(apps.commerce.required, true);
-  }
+  assert.deepEqual(Object.keys(apps), ["commerce"]);
+  assert.match(apps.commerce.id, /^plugin_asdk_app_[A-Za-z0-9_-]+$/);
+  assert.equal(apps.commerce.required, true);
   const skills = readdirSync(join(root, "skills"))
     .filter((name) => existsSync(join(root, "skills", name, "SKILL.md")));
   assert.deepEqual(skills, ["commerce"]);

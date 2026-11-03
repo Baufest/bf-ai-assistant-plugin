@@ -21,7 +21,8 @@
   [Refresh metadata](https://developers.openai.com/plugins/deploy/connect-chatgpt#refresh-metadata)
 - The repo marketplace is pinned to the last legacy package commit. Git-backed
   marketplace sources support a `sha` selector; this avoids automatically
-  distributing the intentionally unconfigured new manifest.
+  distributing the new package before its connection and workflows are
+  interactively verified.
   [Marketplace metadata](https://developers.openai.com/plugins/build/plugins#marketplace-metadata)
   Legacy routes may nevertheless stop working when the upstream server is
   migrated. The installed Desktop client's support for this pin has not been
@@ -43,8 +44,8 @@ explicit web action. See the
 [MCP tools](https://github.com/Baufest/mini-assistant/blob/e49c0335be9fbb41271d8557138c86954448e01b/mcp/src/commerce/interfaces/mcp/tools.ts),
 [MCP README](https://github.com/Baufest/mini-assistant/blob/e49c0335be9fbb41271d8557138c86954448e01b/mcp/README.md)
 and [dynamic contract](https://github.com/Baufest/mini-assistant/blob/e49c0335be9fbb41271d8557138c86954448e01b/docs/multidemo/multidemo-contracts.md#11-dynamic-demo-contracts-adr-0015).
-This source evidence does **not** establish that the current public endpoint
-has been deployed or that any ChatGPT account has registered it.
+This source evidence alone does not establish deployment health or that a
+ChatGPT account can invoke the current public endpoint.
 
 The upstream OAuth server advertises resource-specific protected-resource
 metadata, scope `demo`, a public client using token authentication `none`, and
@@ -58,8 +59,9 @@ plugin or send them to the model.
 
 ## Remaining verification
 
-The packaging helper validates syntax and requires a human confirmation; it
-does not contact ChatGPT or verify that an ID is live, accessible, or bound
-to the supplied URL. A human must register or retarget and verify the
-connection, confirm the compatible public deployment, and run the Desktop
-checks in the [README](../README.md) before publishing the new package.
+The operator has registered and authorized the connection referenced by the
+root manifest. The packaging helper validates syntax and requires a human
+confirmation; it does not contact ChatGPT or verify that an ID is live,
+accessible, or bound to the supplied URL. Run the Desktop tool and installed
+package checks in the [README](../README.md), and verify availability for the
+intended accounts or workspaces before publishing the new package.
