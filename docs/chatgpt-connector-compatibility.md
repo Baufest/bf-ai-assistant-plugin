@@ -19,16 +19,13 @@
   that, verify the resulting URL and tools; otherwise register a new
   connection. Never assume one of the three legacy IDs points to commerce.
   [Refresh metadata](https://developers.openai.com/plugins/deploy/connect-chatgpt#refresh-metadata)
-- The repo marketplace is pinned to the last legacy package commit. Git-backed
-  marketplace sources support a `sha` selector; this avoids automatically
-  distributing the new package before its connection and workflows are
-  interactively verified.
+- The repo marketplace is pinned to a configured commerce package commit.
+  Git-backed marketplace sources support a `sha` selector; update it only
+  after the new package's connection and workflows are interactively verified.
   [Marketplace metadata](https://developers.openai.com/plugins/build/plugins#marketplace-metadata)
-  Legacy routes may nevertheless stop working when the upstream server is
-  migrated. The installed Desktop client's support for this pin has not been
-  tested here; an older client might skip the marketplace entry. Retargeting a
-  legacy connection can independently break its old plugin even if the package
-  stays pinned.
+  The installed Desktop client's support for this pin must be verified; an
+  older client might skip the marketplace entry. An existing legacy plugin may
+  remain installed, but its routes are removed by the new upstream MCP.
 
 ## Current upstream contract
 
@@ -60,8 +57,9 @@ plugin or send them to the model.
 ## Remaining verification
 
 The operator has registered and authorized the connection referenced by the
-root manifest. The packaging helper validates syntax and requires a human
-confirmation; it does not contact ChatGPT or verify that an ID is live,
-accessible, or bound to the supplied URL. Run the Desktop tool and installed
-package checks in the [README](../README.md), and verify availability for the
-intended accounts or workspaces before publishing the new package.
+root manifest and verified the local package's list, search and cart workflow.
+The packaging helper validates syntax and requires a human confirmation; it
+does not contact ChatGPT or verify that an ID is live, accessible, or bound to
+the supplied URL. Verify the repository-marketplace installation, remaining
+checks in the [README](../README.md), and availability for the intended
+accounts or workspaces.

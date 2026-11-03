@@ -11,15 +11,15 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const script = join(root, "scripts", "prepare-commerce.mjs");
 const readJson = (...parts) => JSON.parse(readFileSync(join(root, ...parts), "utf8"));
 const releaseMarketplace = readJson(".agents", "plugins", "marketplace.json");
-const legacySha = releaseMarketplace.plugins[0].source.sha;
-const pinnedApps = JSON.parse(execFileSync("git", ["show", `${legacySha}:.app.json`], {
+const pinnedSha = releaseMarketplace.plugins[0].source.sha;
+const pinnedApps = JSON.parse(execFileSync("git", ["show", `${pinnedSha}:.app.json`], {
   cwd: root,
   encoding: "utf8",
 }));
-// This previously published ID is a parser fixture, not evidence about its current target.
-const legacyId = Object.values(pinnedApps.apps)[0]?.id;
+// This pinned ID is a parser fixture, not evidence about its current target.
+const fixtureId = Object.values(pinnedApps.apps)[0]?.id;
 const exampleUrl = "https://example.test/mcp/commerce";
-const args = (id = legacyId, url = exampleUrl) => [
+const args = (id = fixtureId, url = exampleUrl) => [
   "--app-id", id, "--commerce-url", url, "--verified-connection",
 ];
 const invoke = (...cliArgs) => spawnSync(process.execPath, [script, ...cliArgs], {
@@ -29,13 +29,14 @@ const invoke = (...cliArgs) => spawnSync(process.execPath, [script, ...cliArgs],
 const freshOutput = () => `.commerce-local-test-${randomBytes(8).toString("hex")}`;
 
 test("the marketplace pin resolves to a configured package with a matching name", () => {
-  assert.match(legacySha, /^[0-9a-f]{40}$/);
+  assert.equal(releaseMarketplace.plugins[0].name, "mini-assistant-commerce");
+  assert.match(pinnedSha, /^[0-9a-f]{40}$/);
   assert.equal(releaseMarketplace.plugins[0].source.ref, undefined);
-  const pinnedManifest = JSON.parse(execFileSync("git", ["show", `${legacySha}:plugin.json`], {
+  const pinnedManifest = JSON.parse(execFileSync("git", ["show", `${pinnedSha}:plugin.json`], {
     cwd: root,
     encoding: "utf8",
   }));
-  const pinnedCompat = JSON.parse(execFileSync("git", ["show", `${legacySha}:.codex-plugin/plugin.json`], {
+  const pinnedCompat = JSON.parse(execFileSync("git", ["show", `${pinnedSha}:.codex-plugin/plugin.json`], {
     cwd: root,
     encoding: "utf8",
   }));
@@ -44,13 +45,10 @@ test("the marketplace pin resolves to a configured package with a matching name"
   assert.equal(pinnedCompat.version, pinnedManifest.version);
   assert.equal(pinnedCompat.apps, "./.app.json");
   assert.equal(pinnedManifest.extensions["com.openai"].apps, pinnedCompat.apps);
-  assert.ok(Object.keys(pinnedApps.apps).length > 0, "A marketplace must not point at an empty app mapping");
+  assert.deepEqual(Object.keys(pinnedApps.apps), ["commerce"]);
   for (const app of Object.values(pinnedApps.apps)) {
     assert.match(app.id, /^plugin_asdk_app_[A-Za-z0-9_-]+$/);
     assert.equal(app.required, true);
-  }
-  if (pinnedManifest.name === "mini-assistant-commerce") {
-    assert.deepEqual(Object.keys(pinnedApps.apps), ["commerce"]);
   }
 });
 
@@ -94,23 +92,23 @@ test("commerce skill describes the real generic contract and its safety boundari
 });
 
 test("argument parser accepts an ID only as an offline, user-verified configuration", () => {
-  assert.deepEqual(parseArgs(args()), { appId: legacyId, output: ".commerce-local" });
+  assert.deepEqual(parseArgs(args()), { appId: fixtureId, output: ".commerce-local" });
   assert.deepEqual(parseArgs([...args(), "--output", ".commerce-local-team_1"]), {
-    appId: legacyId,
+    appId: fixtureId,
     output: ".commerce-local-team_1",
   });
   assert.deepEqual(parseArgs(["--help"]), { help: true });
   assert.throws(() => parseArgs([]), /technical ID/);
-  assert.throws(() => parseArgs(["--help", "--app-id", legacyId]), /Unknown or repeated/);
-  assert.throws(() => parseArgs([...args(), "--app-id", legacyId]), /Unknown or repeated/);
+  assert.throws(() => parseArgs(["--help", "--app-id", fixtureId]), /Unknown or repeated/);
+  assert.throws(() => parseArgs([...args(), "--app-id", fixtureId]), /Unknown or repeated/);
   assert.throws(() => parseArgs([...args(), "--unexpected"]), /Unknown or repeated/);
   assert.throws(() => parseArgs(["--app-id", "--verified-connection"]), /missing/);
-  assert.throws(() => parseArgs(["--app-id", legacyId]), /public HTTPS/);
-  assert.throws(() => parseArgs(["--app-id", legacyId, "--commerce-url", exampleUrl]), /Verify the connection/);
+  assert.throws(() => parseArgs(["--app-id", fixtureId]), /public HTTPS/);
+  assert.throws(() => parseArgs(["--app-id", fixtureId, "--commerce-url", exampleUrl]), /Verify the connection/);
   assert.throws(() => parseArgs(args("not-a-registered-id")), /technical ID/);
-  assert.throws(() => parseArgs(args(`${legacyId}\n`)), /technical ID/);
+  assert.throws(() => parseArgs(args(`${fixtureId}\n`)), /technical ID/);
   assert.throws(() => parseArgs([...args(), "--output", "..\\outside"]), /Output must/);
-  assert.throws(() => prepareCommerce({ appId: legacyId, output: "..\\outside" }), /Invalid package/);
+  assert.throws(() => prepareCommerce({ appId: fixtureId, output: "..\\outside" }), /Invalid package/);
 });
 
 test("the endpoint must be the exact public HTTPS commerce resource", () => {
@@ -119,7 +117,7 @@ test("the endpoint must be the exact public HTTPS commerce resource", () => {
     "https://example.test/mcp/commerce/", "https://example.test/mcp/commerce?x=1",
     "https://example.test/mcp/commerce#", "https://user:password@example.test/mcp/commerce",
   ]) {
-    assert.throws(() => parseArgs(args(legacyId, url)), /public HTTPS/);
+    assert.throws(() => parseArgs(args(fixtureId, url)), /public HTTPS/);
   }
 });
 
@@ -137,7 +135,7 @@ test("the local marketplace points at the generated package with install-time au
 });
 
 test("filesystem failures are reported without leaking details or overwriting user files", () => {
-  const options = { appId: legacyId, output: freshOutput() };
+  const options = { appId: fixtureId, output: freshOutput() };
   const denied = {
     mkdirSync() {
       const error = new Error("sensitive filesystem detail");
@@ -173,9 +171,9 @@ test("CLI creates one isolated commerce mapping and refuses to overwrite it", ()
     const result = invoke(...args(), "--output", output);
     assert.equal(result.status, 0, result.stderr);
     assert.match(result.stdout, /not verified or changed/);
-    assert.ok(!result.stdout.includes(legacyId));
+    assert.ok(!result.stdout.includes(fixtureId));
     const app = JSON.parse(readFileSync(join(destination, "plugin", ".app.json"), "utf8"));
-    assert.deepEqual(app, { apps: { commerce: { id: legacyId, required: true } } });
+    assert.deepEqual(app, { apps: { commerce: { id: fixtureId, required: true } } });
     const localMarketplace = JSON.parse(readFileSync(join(destination, ".agents", "plugins", "marketplace.json"), "utf8"));
     assert.deepEqual(localMarketplace, marketplace("mini-assistant-commerce"));
     for (const parts of [
@@ -216,7 +214,7 @@ test("in-process entry point covers success, help, and failure without exposing 
   try {
     assert.equal(main([...args(), "--output", output], logger), 0);
     assert.equal(main([...args(), "--output", output], logger), 1);
-    assert.ok(messages.every((message) => !message.includes(legacyId)));
+    assert.ok(messages.every((message) => !message.includes(fixtureId)));
   } finally {
     if (existsSync(destination)) rmSync(destination, { recursive: true });
   }

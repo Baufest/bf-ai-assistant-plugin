@@ -5,23 +5,21 @@ connection, searches their catalogs and prepares a cart for **explicit checkout
 on the web**. It does not contain a payment, order, or provider-specific
 booking tool. Hotelbeds is treated like any other ready store.
 
-> **Migration not yet activated.** The root `.app.json` references the
-> operator's registered commerce connection, which is connected to the public
-> MCP through OAuth. Tool calls and the packaged plugin still require
-> interactive verification. The existing repository marketplace is pinned to
-> the previous, three-connection package, which is compatible only with legacy
-> server routes removed by the new upstream MCP. Do not switch the marketplace
-> to this revision or claim the new plugin works until the checks below pass.
+> **Marketplace configuration.** The repository marketplace is pinned to the
+> single-connection commerce package. Its registered connection may not be
+> available to every account or workspace: installation does not itself grant
+> access or authorize a user. Verify the connection and workflows for the
+> intended audience before relying on the plugin.
 
 The [compatibility reference](docs/chatgpt-connector-compatibility.md) explains
 the manifests, source evidence and limitations. The
 [legacy README](https://github.com/Baufest/bf-ai-assistant-plugin/blob/93504bc611dd304002f64dea31e5abfd819d7539/README.md)
-describes the pinned package; it does not describe the new commerce contract.
+describes the earlier package; it does not describe the commerce contract.
 
-## What is staged
+## Package contents
 
 ```text
-.agents/plugins/marketplace.json   # pinned to the last legacy package commit
+.agents/plugins/marketplace.json   # pinned to a configured commerce package commit
 plugin.json                        # portable commerce manifest
 .codex-plugin/plugin.json          # Codex/ChatGPT compatibility manifest
 .app.json                          # operator-registered commerce connection
@@ -89,12 +87,12 @@ disable OAuth checks to proceed.
    present. Retargeting an existing connection is not established by the
    official documentation; if the UI does not support it, create a new one.
    A metadata **Refresh** alone does not prove a URL change. Retargeting a
-   legacy connection can also break the pinned legacy plugin, so prefer a new
-   connection until migration is verified.
+   legacy connection can also break an existing legacy installation, so prefer
+   a new connection until migration is verified.
 
 The operator registered and authorized the configured connection before adding
-it to this package. The mapping itself does not authorize another account, and
-the tool and installed-package checks below are still required.
+it to this package. The mapping itself does not authorize another account;
+run the tool and installed-package checks below for each intended audience.
 
 ## Prepare and install an isolated local test package
 
@@ -188,14 +186,13 @@ permission and web-checkout checks above.
 
 ## Publishing after verification
 
-Keep the current marketplace pin until the operator has verified the deployed
-resource, the registered ID and the installed local package. Verify that the
-configured connection is accessible and its workflows work for the intended
-account or workspace; use an appropriate distribution configuration if a
-different connection is required. Then, in a subsequent marketplace update,
-change the entry's plugin name to `mini-assistant-commerce` and its `sha` to
-that verified package commit. Never point the marketplace at an empty
-`.app.json` or a legacy ID merely to make the manifest look configured.
+The marketplace is pinned to a committed, configured package. For future
+updates, first commit the package and verify the deployed resource, registered
+ID and installed local package for the intended account or workspace. Use an
+appropriate distribution configuration if a different connection is required.
+Then update the marketplace `sha` to the verified package commit in a separate
+change. Never point it at an empty `.app.json` or a legacy ID merely to make
+the manifest look configured.
 
 Retain the old installation and connections until migration is verified; remove
 them only when no longer needed. Reauthorization may be required after an MCP

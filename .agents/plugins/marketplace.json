@@ -5,11 +5,11 @@
   },
   "plugins": [
     {
-      "name": "mini-assistant-demos",
+      "name": "mini-assistant-commerce",
       "source": {
         "source": "url",
         "url": "https://github.com/Baufest/bf-ai-assistant-plugin.git",
-        "sha": "93504bc611dd304002f64dea31e5abfd819d7539"
+        "sha": "10053817bdcf9a6bf26c760135b9341e5dce6801"
       },
       "policy": {
         "installation": "AVAILABLE",
