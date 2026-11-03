@@ -5,13 +5,13 @@ connection, searches their catalogs and prepares a cart for **explicit checkout
 on the web**. It does not contain a payment, order, or provider-specific
 booking tool. Hotelbeds is treated like any other ready store.
 
-> **Migration not yet activated.** The root `.app.json` is intentionally empty:
-> no commerce connection ID has been supplied or verified in this work.
-> The existing repository marketplace is pinned to the previous, three-connection
-> package, not this unconfigured package. The old package is compatible only
-> with its legacy server routes, which the new upstream MCP removes.
-> Do not switch the marketplace to this revision or claim the new plugin works
-> until the deployment and account-specific connection are verified below.
+> **Migration not yet activated.** The root `.app.json` references the
+> operator's registered commerce connection, which is connected to the public
+> MCP through OAuth. Tool calls and the packaged plugin still require
+> interactive verification. The existing repository marketplace is pinned to
+> the previous, three-connection package, which is compatible only with legacy
+> server routes removed by the new upstream MCP. Do not switch the marketplace
+> to this revision or claim the new plugin works until the checks below pass.
 
 The [compatibility reference](docs/chatgpt-connector-compatibility.md) explains
 the manifests, source evidence and limitations. The
@@ -24,17 +24,18 @@ describes the pinned package; it does not describe the new commerce contract.
 .agents/plugins/marketplace.json   # pinned to the last legacy package commit
 plugin.json                        # portable commerce manifest
 .codex-plugin/plugin.json          # Codex/ChatGPT compatibility manifest
-.app.json                          # empty until a real commerce ID is supplied
+.app.json                          # operator-registered commerce connection
 skills/commerce/SKILL.md           # one store-independent workflow
 scripts/prepare-commerce.mjs       # creates an isolated local test marketplace
 tests/                             # offline safety and package checks
 ```
 
-Both manifests reference the root `.app.json`. The generated local copy will
-contain one `commerce` mapping with the operator's registered technical ID;
-the checked-in scaffold remains unconfigured. IDs are identifiers, not OAuth
-credentials. Never put tokens, keys, or client secrets in this repository,
-the command arguments, or model context.
+Both manifests reference the root `.app.json`, which maps `commerce` to the
+operator's registered technical ID. The helper can also produce a local copy
+using an independently supplied ID. A registered ID may not be available to
+other accounts or workspaces. IDs are identifiers, not OAuth credentials.
+Never put tokens, keys, or client secrets in this repository, the command
+arguments, or model context.
 
 ## Operator prerequisites
 
@@ -91,8 +92,9 @@ disable OAuth checks to proceed.
    legacy connection can also break the pinned legacy plugin, so prefer a new
    connection until migration is verified.
 
-No registration, retargeting, sign-in or deployment was performed as part of
-this change.
+The operator registered and authorized the configured connection before adding
+it to this package. The mapping itself does not authorize another account, and
+the tool and installed-package checks below are still required.
 
 ## Prepare and install an isolated local test package
 
@@ -187,13 +189,13 @@ permission and web-checkout checks above.
 ## Publishing after verification
 
 Keep the current marketplace pin until the operator has verified the deployed
-resource, the registered ID and the installed local package. To publish for an
-intended account or workspace, put its real single `commerce` mapping in an
-appropriate distribution fork, commit that configured package, and verify its
-accessibility and workflows. Then, in a subsequent marketplace update, change
-the entry's plugin name to `mini-assistant-commerce` and its `sha` to that
-verified package commit. Never point the marketplace at an empty `.app.json`
-or a legacy ID merely to make the manifest look configured.
+resource, the registered ID and the installed local package. Verify that the
+configured connection is accessible and its workflows work for the intended
+account or workspace; use an appropriate distribution configuration if a
+different connection is required. Then, in a subsequent marketplace update,
+change the entry's plugin name to `mini-assistant-commerce` and its `sha` to
+that verified package commit. Never point the marketplace at an empty
+`.app.json` or a legacy ID merely to make the manifest look configured.
 
 Retain the old installation and connections until migration is verified; remove
 them only when no longer needed. Reauthorization may be required after an MCP

@@ -1,3 +1,8 @@
 {
-  "apps": {}
+  "apps": {
+    "commerce": {
+      "id": "plugin_asdk_app_6ae95f5fb1b081919f4465ac43cd13cc",
+      "required": true
+    }
+  }
 }
