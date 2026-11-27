@@ -16,6 +16,7 @@ function isOutputName(value) {
 }
 
 function isCommerceUrl(value) {
+  if (/[\u0000-\u0020\u007f\\]/.test(value)) return false;
   try {
     const url = new URL(value);
     return url.protocol === "https:" &&

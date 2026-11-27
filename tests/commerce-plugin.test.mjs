@@ -116,6 +116,8 @@ test("the endpoint must be the exact public HTTPS commerce resource", () => {
     "not-a-url", "http://example.test/mcp/commerce", "https://example.test/mcp",
     "https://example.test/mcp/commerce/", "https://example.test/mcp/commerce?x=1",
     "https://example.test/mcp/commerce#", "https://user:password@example.test/mcp/commerce",
+    " https://example.test/mcp/commerce", "https://example.test/mcp/commerce\n",
+    "https:\\example.test\\mcp\\commerce",
   ]) {
     assert.throws(() => parseArgs(args(fixtureId, url)), /public HTTPS/);
   }
